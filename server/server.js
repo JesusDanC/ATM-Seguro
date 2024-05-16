@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 conexion_base_datos();
 
 app.use('/api/usuarios', require('./routes/usuario'));
+app.use('/api/cuentas', require('./routes/cuentas'));
 
 app.get('/', (req, res) => {
     res.send('Hola');
