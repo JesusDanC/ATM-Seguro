@@ -109,7 +109,7 @@ const Borrar_usuarios = async (req, res = response) => {
         
         res.json({
             ok: true, 
-            msg: 'Usuario Eliminado Correctamente!!!'
+            msg: 'Usuario eliminado correctamente'
         });
 
     } catch (error) {
@@ -117,7 +117,7 @@ const Borrar_usuarios = async (req, res = response) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Error al borrar el registro!!!'
+            msg: 'Error al borrar el registro'
         });
     }
 }
