@@ -31,4 +31,5 @@ const verificarRol = (req, res, next) => {
 }
   
 module.exports = {verificarAuth, verificarRol};
+//
   
