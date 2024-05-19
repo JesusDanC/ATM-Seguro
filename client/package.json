@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.3.3",
     "@floating-ui/vue": "^1.0.6",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "pinia": "^2.1.7",
     "portal-vue": "^3.0.0-beta.0",
-    "vue-axios": "^3.5.2"
+    "vue-axios": "^3.5.2",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
