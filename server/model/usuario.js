@@ -23,6 +23,12 @@ UsuarioSchema.method('toJSON', function() {
     object.uid = __id;
 
     return object;
-})
+});
+
+UsuarioSchema.method('toJSON', function() {
+    const object = this.toObject();
+    delete object.pin;
+    return object;
+});
 
 module.exports = model('usuario', UsuarioSchema);
