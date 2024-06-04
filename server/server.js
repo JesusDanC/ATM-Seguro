@@ -19,6 +19,7 @@ app.use('/api/usuarios', require('./routes/usuario'));
 app.use('/api/cuentas', require('./routes/cuentas'));
 app.use('/api/tarjetas', require('./routes/tarjetas'));
 app.use('/api/transacciones', require('./routes/transacciones'));
+app.use('/api/bitacora', require('./routes/bitacora'));
 app.use('/api/login', require('./routes/login'));
 
 app.get('/', (req, res) => {
