@@ -7,10 +7,7 @@ const Ver_cuentas = async(req, res) => {
     try {
         const cuentas = await modelo_cuenta.find({id_usuario}, 'numero_cuenta nombre saldo fecha_creacion fecha_suspendido');
 
-        res.status(200).json({
-            ok:true,
-            cuentas
-        });
+        res.json(cuentas);
 
     } catch (error) {
         console.log(error);
@@ -36,7 +33,12 @@ const Crear_cuentas = async(req, res) => {
         }
         const cuentas = new modelo_cuenta( req.body );
         cuentas.id_usuario = id_usuario;
-        cuentas.fecha_creacion = Date.now();
+
+        var fechaActual = Date.now();
+        var fecha = new Date(fechaActual);
+        fecha.setHours(0, 0, 0, 0);
+
+        cuentas.fecha_creacion = fecha;
         await cuentas.save();
 
         res.status(200).json({
@@ -57,7 +59,7 @@ const Actualizar_cuentas = async ( req, res = response) => {
     const numero_cuenta = req.params.id;
 
     try {
-        const cuenta_buscada = await modelo_cuenta.findOne(numero_cuenta);
+        const cuenta_buscada = await modelo_cuenta.findOne({numero_cuenta});
 
         if( !cuenta_buscada ){
             return res.status(400).json({
@@ -75,10 +77,10 @@ const Actualizar_cuentas = async ( req, res = response) => {
             });
         }
 
-        const usuarioActualizado = await modelo_cuenta.findOneAndUpdate(numero_cuenta, campos, { new: true });
+        const CuentaActualizada = await modelo_cuenta.findOneAndUpdate({numero_cuenta}, campos, { new: true });
         res.json({
             ok:true,
-            modelo_cuenta: usuarioActualizado
+            modelo_cuenta: CuentaActualizada
         });
 
     } catch (error) {
@@ -91,10 +93,10 @@ const Actualizar_cuentas = async ( req, res = response) => {
 }
 
 const Borrar_cuentas = async (req, res = response) => {
-    const numero_cuenta = req.params.id;
+    var numero_cuenta = req.params.id;
     
     try {
-        const cuenta_buscada = await modelo_cuenta.findOne(numero_cuenta);
+        const cuenta_buscada = await modelo_cuenta.findOne({numero_cuenta});
 
         if( !cuenta_buscada ){
             return res.status(400).json({
@@ -103,7 +105,7 @@ const Borrar_cuentas = async (req, res = response) => {
             });
         }
 
-        await modelo_cuenta.findOneAndDelete(numero_cuenta);
+        await modelo_cuenta.findOneAndDelete({numero_cuenta});
         
         res.json({
             ok: true, 
