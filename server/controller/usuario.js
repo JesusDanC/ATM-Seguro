@@ -7,10 +7,7 @@ const Ver_usuarios = async(req, res) => {
     
     const usuarios = await modelo_usuario.find({}, 'nombre pin role');
 
-    res.status(200).json({
-        ok:true,
-        usuarios
-    })
+    res.json(usuarios);
 }
 
 const Crear_usuarios = async(req, res) => {

@@ -25,8 +25,7 @@ export default {
       try {
         const response = await api.get('/usuarios'); 
         this.DatosRecibidos = response.data;
-        
-
+        console.log(this.DatosRecibidos)
       } catch (error) {
         console.error('Hubo un error al obtener los datos:', error);
       }
