@@ -20,6 +20,7 @@ app.use('/api/cuentas', require('./routes/cuentas'));
 app.use('/api/tarjetas', require('./routes/tarjetas'));
 app.use('/api/transacciones', require('./routes/transacciones'));
 app.use('/api/bitacora', require('./routes/bitacora'));
+app.use('/token', require ('./routes/token'));
 app.use('/api/login', require('./routes/login'));
 
 app.get('/', (req, res) => {

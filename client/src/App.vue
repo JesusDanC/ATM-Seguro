@@ -4,6 +4,11 @@
 
   const opciones = ref([
       {
+        nombre: "Login",
+        ruta: "/Login",
+        clase: "nav-link"
+      },
+      {
         nombre: "Home",
         ruta: "/Home",
         clase: "nav-link"
