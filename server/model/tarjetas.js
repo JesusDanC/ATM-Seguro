@@ -2,7 +2,7 @@ const { Schema, model, mongoose } = require('mongoose');
 const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const TarjetasSchema = Schema({
-    id_cuenta:{
+    numero_cuenta:{
         type: String,
         required: true
     },

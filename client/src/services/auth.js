@@ -11,7 +11,6 @@ export const login = async (nombre, pin) => {
 
 export const verifyToken = async (token) => {
     try {
-        console.log({ 'token': token })
         const response = await api.get('/token', {
             headers: { 'token': token }
         });

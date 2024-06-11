@@ -1,51 +1,61 @@
 <script setup>
   import { useRouter, useRoute, RouterLink, RouterView } from 'vue-router'
   import { ref } from 'vue'
+  import { useAuthStore } from './stores/auth';
 
   const opciones = ref([
       {
-        nombre: "Login",
-        ruta: "/Login",
-        clase: "nav-link"
-      },
-      {
         nombre: "Home",
         ruta: "/Home",
-        clase: "nav-link"
+        clase: "nav-link text-light"
       },
       {
-        nombre: "Table",
-        ruta: "/Table",
-        clase: "nav-link"
+        nombre: "Cuentas",
+        ruta: "/Cuentas",
+        clase: "nav-link text-light"
       },
       {
-        nombre: "Form",
-        ruta: "/Form",
-        clase: "nav-link"
+        nombre: "Tarjetas",
+        ruta: "/Tarjetas",
+        clase: "nav-link text-light"
       },
       {
-        nombre: "Modal",
-        ruta: "/Modal",
-        clase: "nav-link"
+        nombre: "Servicios Publicos",
+        ruta: "/Servicios",
+        clase: "nav-link text-light"
       },
       {
-        nombre: "Usuarios",
-        ruta: "/Usuarios",
-        clase: "nav-link"
+        nombre: "Transacciones",
+        ruta: "/Transacciones",
+        clase: "nav-link text-light"
+      },
+      {
+        nombre: "Admin",
+        ruta: "/Admin",
+        clase: "nav-link disabled text-white-50"
       }
     ]
   )
 
-  const activar = (posicion) => {
-    for (let i = 0; i < opciones.value.length; i++) {
-      opciones.value[i].clase = "nav-link"
-    }
-    opciones.value[posicion].clase = "nav-link disabled"
-  }
-
+  const authStore = useAuthStore();
   const router = useRouter();
   const route = useRoute()
   const currentRoute = route
+
+  const activar = (posicion) => {
+    if (authStore.user) {
+      for (let i = 0; i < opciones.value.length; i++) {
+        opciones.value[i].clase = "nav-link text-light"
+      }
+      opciones.value[posicion].clase = "nav-link disabled text-white-50"
+    }
+    const index = opciones.value.findIndex(opcion => opcion.nombre === 'Admin');
+    if (authStore.user.role === 'ADMIN') {
+      
+    } else {
+      opciones.value[index].clase = 'nav-link disabled text-white-50';
+    }
+  }
 
   const ruta = () => {
     for (let i = 0; i < opciones.value.length; i++) {
@@ -60,10 +70,15 @@
   }
   
   window.onload = ruta;
+
+  const salir = () => {
+    authStore.Logout();
+    router.push('/Login');
+  }
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><RouterLink class="rainbow" to="/Home" @click="activar(0)">Tarea 6</RouterLink></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,10 +89,14 @@
           <template v-for="(opcion, index) in opciones">  
             <li class="nav-item">
               <a aria-current="page"><RouterLink :class="opcion.clase" :to="{path: opcion.ruta}" @click="activar(index)">
-                {{ opcion.nombre }}</RouterLink></a>
+                {{ opcion.nombre }}
+              </RouterLink></a>
             </li>
           </template>
         </ul>
+        <button class="btn btn-secondary d-flex">
+          <i class="bi bi-box-arrow-left" @click=salir></i>
+        </button>
       </div>
     </div>
   </nav>
@@ -85,7 +104,6 @@
 </template>
 
 <style scoped>
-
 #shadowBox {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.2);

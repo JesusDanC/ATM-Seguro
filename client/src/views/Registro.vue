@@ -1,60 +1,54 @@
-<script setup>
-import { ref } from 'vue'
+<script>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { UsuariosStore } from '../stores/usuario.js';
 
-const EstaAbierto = ref(false)
+export default {
+  setup() {
+    const usuarioStore = UsuariosStore();
+    const nombre = ref('');
+    const pin = ref('');
+    
+    const AgregarUsuario = () => {
+      const usuario = { 
+        nombre: nombre.value, 
+        pin: pin.value
+      };
+      usuarioStore.createUser(usuario);
+      nombre.value = '';
+      pin.value = ''
+    };
+
+    return {
+      nombre,
+      pin,
+      AgregarUsuario
+    };
+  }
+};
+
 </script>
 
-<template class="template">
+<template>
+  <form name="login-form" class="login-form"  @submit.prevent="AgregarUsuario">  
+          <h3>Registro</h3>
+          <div class="mb-3">
+                <label for="Nombre" class="login-label">Nombre</label>
+                <input class="login-input" id="Nombre" type="text" v-model="nombre" placeholder="Nombre" required>
+            </div>
+          <div class="mb-3"> 
+                <label for="Pin" class="login-label">Pin</label>
+                <input class="login-input" id="Pin" type="password" v-model="pin" placeholder="Pin" required/>
+          </div>
 
-    <br>
-    <center><button class="boton btn btn-success" @click="EstaAbierto = true">Modal</button></center>
-    <div class="container">
-           <teleport to="body">
-           <Transition>
-                <div class="modal" v-if="EstaAbierto">
-                    <div>
-                        <p>
-                        <h2>Hola</h2>
-                        <br>
-                        <button type="button" class="btn btn-warning" @click="EstaAbierto = false">Cerrar</button>
-                        </p>
-                    </div>
-                </div>
-            </Transition>
-        </teleport>
-    </div>
-    
+          <button class="login-button btn btn-outline-dark" type="submit">
+            Registrarse
+          </button>
+        
+          <RouterLink class="create-account" to="/Login">Ya tengo una cuenta</RouterLink>
+        </form>
 </template>
 
 <style>
-    .modal{
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.1);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .modal > div{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #fff;
-        width: 500px;
-        height: 200px;
-        border-radius: 10px;
-    }
 
-    .v-enter-active,
-    .v-leave-active {
-    transition: opacity 0.5s ease;
-    }
-
-    .v-enter-from,
-    .v-leave-to {
-    opacity: 0;
-    }
 </style>

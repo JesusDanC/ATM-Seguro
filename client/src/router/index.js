@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth';
-import Home from '../views/Home.vue'
-import Form from '../views/Form.vue'
-import Table from '../views/Table.vue'
-import Modal from '../views/Modal.vue'
-import Usuarios from '../views/Usuarios.vue'
 import Login from '../views/Login.vue';
+import Registro from '../views/Registro.vue'
+import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
+import Cuentas from '../views/Cuentas.vue'
+import Tarjetas from '../views/Tarjetas.vue'
+import Transacciones from '../views/Transacciones.vue';
+import Servicios from '../views/Servicios.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,27 +19,27 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/Form',
-      name: 'Form',
-      component: Form,
+      path: '/Cuentas',
+      name: 'Cuentas',
+      component: Cuentas,
       meta: { requiresAuth: true }
     },
     {
-      path: '/Table',
-      name: 'Table',
-      component: Table,
+      path: '/Tarjetas',
+      name: 'Tarjetas',
+      component: Tarjetas,
       meta: { requiresAuth: true }
     },
     {
-      path: '/Modal',
-      name: 'Modal',
-      component: Modal,
+      path: '/Transacciones',
+      name: 'Transacciones',
+      component: Transacciones,
       meta: { requiresAuth: true }
     },
     {
-      path: '/Usuarios',
-      name: 'Usuarios',
-      component: Usuarios,
+      path: '/Servicios',
+      name: 'Servicios',
+      component: Servicios,
       meta: { requiresAuth: true }
     },
     {
@@ -46,6 +47,11 @@ const router = createRouter({
       name: 'Admin',
       component: Admin,
       meta: { requiresAuth: true, requiresAdmin: true }
+    },
+    {
+      path: '/Registro',
+      name: 'Registro',
+      component: Registro
     },
     {
       path: '/Login',
@@ -64,15 +70,14 @@ router.beforeEach(async (to, from, next) => {
   await authStore.checkAuth();
 
   if (to.meta.requiresAuth && !authStore.user) {
-    next('/login');
-  } else if (to.meta.requiresAdmin && authStore.user?.role !== 'ADMIN') {
+    next('/Login');
+  } else if (to.meta.requiresAdmin && authStore.user.role !== 'ADMIN') {
     next('/');
-  } else if (to.path === '/login' && authStore.user) {
-    next('/');
+  } else if (to.path === '/Login' && authStore.user) {
+    next('/Home');
   } else {
     next();
   }
 });
-
 
 export default router

@@ -3,9 +3,8 @@ const { response } = require('express');
 const modelo_bitacora = require('../model/bitacora');
 
 const Ver_bitacora = async(req, res) => {
-    const nombre_usuario = req.params.id;
     try {
-        const bitacora = await modelo_bitacora.find({nombre_usuario}, 'codigo fecha_ingreso fecha_salida');
+        const bitacora = await modelo_bitacora.find({}, 'codigo fecha_ingreso fecha_salida');
 
         res.json(bitacora);
 

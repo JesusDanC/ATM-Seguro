@@ -12,16 +12,16 @@ router.post('/', async(req, res) => {
     const body = req.body;
   
     try {
-      const usuario_buscado = await modelo_usuario.findOne({nombre: body.nombre});
+      const user = await modelo_usuario.findOne({nombre: body.nombre});
   
-      if(!usuario_buscado){
+      if(!user){
         console.log('Usuario no encontrado')      
         return res.status(400).json({
           mensaje: 'Usuario no encontrado',
         });
       }
   
-      if( !bcrypt.compareSync(body.pin, usuario_buscado.pin) ){
+      if( !bcrypt.compareSync(body.pin, user.pin) ){
         console.log('Pin invalido')      
         return res.status(400).json({
           mensaje: 'Contraseña invalida',
@@ -29,11 +29,11 @@ router.post('/', async(req, res) => {
       }
 
       let token = jwt.sign({
-        data: usuario_buscado
-      }, 'secret', { expiresIn: 60 * 60}) // 60 * 60 * 24 * 1
+        data: user
+      }, 'secret', { expiresIn: 60 * 30})
 
       return res.json({
-        usuario_buscado,
+        user,
         token: token
       })
       

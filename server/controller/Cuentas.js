@@ -5,7 +5,7 @@ const modelo_cuenta = require('../model/cuentas');
 const Ver_cuentas = async(req, res) => {
     const nombre_usuario = req.params.id;
     try {
-        const cuentas = await modelo_cuenta.find({nombre_usuario}, 'numero_cuenta nombre_usuario saldo fecha_creacion');
+        const cuentas = await modelo_cuenta.find({nombre_usuario}, 'nombre nombre_usuario numero_cuenta saldo fecha_creacion');
 
         res.json(cuentas);
 

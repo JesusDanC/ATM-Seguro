@@ -4,10 +4,18 @@ const bcrypt = require('bcryptjs');
 const modelo_usuario = require('../model/usuario');
 
 const Ver_usuarios = async(req, res) => {
-    
-    const usuarios = await modelo_usuario.find({}, 'nombre pin role');
+    try {
+        const usuarios = await modelo_usuario.find({}, 'nombre pin role');
 
-    res.json(usuarios);
+        res.json(usuarios);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error al mostrar datos'
+        });
+    }
+    
 }
 
 const Crear_usuarios = async(req, res) => {
@@ -22,11 +30,11 @@ const Crear_usuarios = async(req, res) => {
                 msg: 'El nombre ya existe'
             });
         }
-
+        
         const usuarios = new modelo_usuario( req.body );
 
-        const encriptar = bcrypt.genSaltSync(10);
-        usuarios.pin = bcrypt.hashSync(pin, encriptar);
+        const salt = bcrypt.genSaltSync(10);
+        usuarios.pin = bcrypt.hashSync(pin, salt);
         
         await usuarios.save();
 

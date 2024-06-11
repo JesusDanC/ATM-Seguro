@@ -5,7 +5,7 @@ const { Ver_bitacora, Crear_bitacora, Actualizar_bitacora, Borrar_bitacora } = r
 
 const router = Router();
 
-router.get('/:id', Ver_bitacora);
+router.get('/', Ver_bitacora);
 
 router.post('/:id', [
 

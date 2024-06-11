@@ -1,11 +1,12 @@
 const { response } = require('express');
 
 const modelo_tarjeta = require('../model/tarjetas');
+const modelo_cuenta = require('../model/cuentas');
 
 const Ver_tarjetas = async(req, res) => {
-    const id_cuenta = req.params.id;
+    const numero_cuenta = req.params.id;
     try {
-        const tarjetas = await modelo_tarjeta.find({id_cuenta}, 'numero_tarjeta cvv fecha_vencimiento');
+        const tarjetas = await modelo_tarjeta.find({numero_cuenta}, 'numero_tarjeta cvv fecha_vencimiento');
 
         res.json(tarjetas);
 
@@ -19,20 +20,20 @@ const Ver_tarjetas = async(req, res) => {
 }
 
 const Crear_tarjetas = async(req, res) => {
-    const id_cuenta = req.params.id;
-    const {numero_tarjeta} = req.body;
+    const numero_cuenta = req.params.id;
 
     try {
-        const Existe_tarjeta = await modelo_tarjeta.findOne({numero_tarjeta});
+        const Existe_cuenta = await modelo_cuenta.findOne({numero_cuenta});
 
-        if (Existe_tarjeta) {
+        if (!Existe_cuenta) {
             return res.status(200).json({
                 ok: false,
-                msg: 'El numero de tarjeta ya existe'
+                msg: 'El numero de cuenta no existe'
             });
         }
+        
         const tarjetas = new modelo_tarjeta( req.body );
-        tarjetas.id_cuenta = id_cuenta;
+        tarjetas.numero_cuenta = numero_cuenta;
 
         var fechaActual = Date.now();
         const fecha = new Date(fechaActual), fecha_venc = new Date(fechaActual);
