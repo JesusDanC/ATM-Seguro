@@ -1,16 +1,16 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const TransaccionesSchema = Schema({
+    numero_transaccion:{
+        type: Number,
+        unique: true
+    },
     numero_cuenta_envia:{
         type: String
     },
     numero_cuenta_recibe:{
         type: String
-    },
-    numero_transaccion:{
-        type: Number,
-        required: true,
-        unique: true
     },
     fecha_de_valor:{
         type: Date,
@@ -24,6 +24,8 @@ const TransaccionesSchema = Schema({
         type: String
     }
 });
+
+TransaccionesSchema.plugin(autoIncrement, { inc_field: 'numero_transaccion' });
 
 TransaccionesSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();

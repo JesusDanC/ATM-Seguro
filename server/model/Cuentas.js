@@ -1,13 +1,13 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const CuentaSchema = Schema({
-    id_usuario:{
+    nombre_usuario:{
         type: String,
         required: true
     },
     numero_cuenta:{
         type: Number,
-        required: true,
         unique: true
     },
     nombre:{
@@ -21,11 +21,10 @@ const CuentaSchema = Schema({
     fecha_creacion:{
         type: Date,
         required: true
-    },
-    fecha_suspendido:{
-        type: String
-    },
+    }
 });
+
+CuentaSchema.plugin(autoIncrement, { inc_field: 'numero_cuenta' });
 
 CuentaSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();

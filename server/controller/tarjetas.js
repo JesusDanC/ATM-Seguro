@@ -37,11 +37,11 @@ const Crear_tarjetas = async(req, res) => {
         var fechaActual = Date.now();
         const fecha = new Date(fechaActual), fecha_venc = new Date(fechaActual);
         fecha.setHours(0, 0, 0, 0);
-        fecha_venc.setHours(0, 0, 0, 0);
 
         tarjetas.fecha_creacion = fecha;
        
         fecha_venc.setFullYear(fecha.getFullYear() + 2);
+        fecha_venc.setHours(0, 0, 0, 0);
 
         tarjetas.fecha_vencimiento = fecha_venc;
 

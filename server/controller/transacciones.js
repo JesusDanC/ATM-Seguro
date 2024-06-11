@@ -20,7 +20,7 @@ const Ver_transacciones = async(req, res) => {
 
 const Crear_transacciones = async(req, res) => {
     const numero_cuenta_envia = req.params.id;
-    const {numero_transaccion, numero_cuenta_recibe} = req.body;
+    const {numero_cuenta_recibe} = req.body;
 
     try {
         if (numero_cuenta_envia === numero_cuenta_recibe) {
@@ -36,15 +36,6 @@ const Crear_transacciones = async(req, res) => {
             return res.status(200).json({
                 ok: false,
                 msg: 'La cuenta no existe'
-            });
-        }
-
-        const Existe_transaccion = await modelo_transacciones.findOne({numero_transaccion});
-
-        if (Existe_transaccion) {
-            return res.status(200).json({
-                ok: false,
-                msg: 'El numero de la transaccion ya existe'
             });
         }
 

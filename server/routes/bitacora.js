@@ -8,14 +8,13 @@ const router = Router();
 router.get('/:id', Ver_bitacora);
 
 router.post('/:id', [
-        check('codigo', 'Este campo es obligatorio').not().isEmpty()
+
     ], 
     Crear_bitacora
 );
 
 router.put('/:id',
     [
-        check('codigo', 'Este campo es obligatorio').not().isEmpty(),
         check('fecha_salida', 'Este campo es obligatorio').not().isEmpty()
     ],
     Actualizar_bitacora

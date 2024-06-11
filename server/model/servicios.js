@@ -1,11 +1,12 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const ServicioSchema = Schema({
     id_servicio:{
         type: Number,
         unique: true
     },
-    id_usuario:{
+    nombre_usuario:{
         type: String,
         required: true
     },
@@ -26,6 +27,8 @@ const ServicioSchema = Schema({
         default:'0'
     }
 });
+
+ServicioSchema.plugin(autoIncrement, { inc_field: 'id_servicio' });
 
 ServicioSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();

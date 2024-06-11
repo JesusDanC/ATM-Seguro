@@ -1,11 +1,12 @@
 const { response } = require('express');
 
 const modelo_servicio = require('../model/servicios');
+const modelo_cuenta = require('../model/cuentas');
 
 const Ver_servicios = async(req, res) => {
-    const id_usuario = req.params.id;
+    const nombre_usuario = req.params.id;
     try {
-        const servicios = await modelo_servicio.find({id_usuario}, 'nombre_servicio numero_cuenta_usuario monto fecha_pago');
+        const servicios = await modelo_servicio.find({nombre_usuario}, 'nombre_servicio numero_cuenta_usuario monto fecha_pago');
 
         res.json(servicios);
 
@@ -19,20 +20,20 @@ const Ver_servicios = async(req, res) => {
 }
 
 const Crear_servicios = async(req, res) => {
-    const id_usuario = req.params.id;
-    const {id_servicio} = req.body;
+    const nombre_usuario = req.params.id;
+    const {numero_cuenta_usuario} = req.body;
 
     try {
-        const Existe_servicio = await modelo_servicio.findOne({id_servicio});
+        const Existe_cuenta = await modelo_cuenta.findOne({numero_cuenta_usuario});
 
-        if (Existe_servicio) {
+        if (Existe_cuenta) {
             return res.status(200).json({
                 ok: false,
-                msg: 'El nombre del servicio ya existe'
+                msg: 'El numero de cuenta no existe'
             });
         }
         const servicios = new modelo_servicio( req.body );
-        servicios.id_usuario = id_usuario;
+        servicios.nombre_usuario = nombre_usuario;
 
         var fechaActual = Date.now();
         var fecha = new Date(fechaActual);

@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const TarjetasSchema = Schema({
     id_cuenta:{
@@ -7,7 +8,6 @@ const TarjetasSchema = Schema({
     },
     numero_tarjeta:{
         type: Number,
-        required: true,
         unique: true
     },
     cvv:{
@@ -23,6 +23,8 @@ const TarjetasSchema = Schema({
         required: true
     }
 });
+
+TarjetasSchema.plugin(autoIncrement, { inc_field: 'numero_tarjeta' });
 
 TarjetasSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();
