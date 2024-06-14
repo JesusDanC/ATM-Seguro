@@ -46,10 +46,10 @@ export default {
         userGetted.value = [];
         nombre.value = '';
         pin.value = '';
-        GetData();
       } catch (error) {
         console.log(error)
       }
+      GetData();
     };
 
     const DeleteUsuario = async () => {
@@ -57,11 +57,11 @@ export default {
         usuarioStore.deleteUser(userGetted.nombre);
         userGetted.value = [];
         const myModal = new bootstrap.Modal(document.getElementById('my2Modal'));
-        GetData();
         myModal.hide();
       } catch (error) {
         console.log(error)
       }
+      GetData();
     };
 
     return{

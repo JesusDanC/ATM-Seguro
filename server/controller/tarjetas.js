@@ -6,7 +6,7 @@ const modelo_cuenta = require('../model/cuentas');
 const Ver_tarjetas = async(req, res) => {
     const numero_cuenta = req.params.id;
     try {
-        const tarjetas = await modelo_tarjeta.find({numero_cuenta}, 'numero_tarjeta cvv fecha_vencimiento');
+        const tarjetas = await modelo_tarjeta.find({numero_cuenta}, 'numero_tarjeta numero_cuenta cvv fecha_creacion fecha_vencimiento');
 
         res.json(tarjetas);
 

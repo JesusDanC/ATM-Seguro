@@ -6,7 +6,7 @@ const modelo_cuenta = require('../model/cuentas');
 const Ver_servicios = async(req, res) => {
     const nombre_usuario = req.params.id;
     try {
-        const servicios = await modelo_servicio.find({nombre_usuario}, 'nombre_servicio numero_cuenta_usuario monto fecha_pago');
+        const servicios = await modelo_servicio.find({nombre_usuario}, 'id_servicio nombre_servicio numero_cuenta_usuario monto fecha_pago');
 
         res.json(servicios);
 

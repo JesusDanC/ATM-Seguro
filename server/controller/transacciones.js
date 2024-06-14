@@ -5,7 +5,7 @@ const modelo_transacciones = require('../model/transacciones');
 const Ver_transacciones = async(req, res) => {
     const numero_cuenta_envia = req.params.id;
     try {
-        const transacciones = await modelo_transacciones.find({numero_cuenta_envia}, 'numero_cuenta_recibe numero_transaccion fecha_de_valor monto descripcion');
+        const transacciones = await modelo_transacciones.find({numero_cuenta_envia}, 'numero_cuenta_recibe numero_cuenta_envia numero_transaccion fecha_de_valor monto descripcion');
 
         res.json(transacciones);
 

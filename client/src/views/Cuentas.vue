@@ -2,11 +2,14 @@
 import { useAuthStore } from '../stores/auth';
 import { ref, onMounted } from 'vue';
 import { CuentasStore } from '../stores/cuentas.js';
+import { TransaccionesStore } from '../stores/transacciones.js'
 
 export default {
   setup() {
+    const transaccionStore = TransaccionesStore();
     const cuentaStore = CuentasStore();
     const authStore = useAuthStore();
+    const transacciones = ref([]);
     const cuentas = ref([]);
     const cuentaGetted = ref([]);
     const nombre = ref('');
@@ -25,6 +28,16 @@ export default {
       }
     }
 
+    const GetTransacciones = async () => {
+      try {
+        await transaccionStore.fetchTransacciones(cuentaGetted.value.numero_cuenta)
+        transacciones.value = transaccionStore.allTransacciones;
+        console.log(transacciones.value)
+      } catch (error) {
+        console.error('Error al obtener cuentas:', error);
+      }
+    };
+    
     const openModalEdit = async (cuenta) => {
       cuentaGetted.value = cuenta;
       const myModal = new bootstrap.Modal(document.getElementById('myModal'));
@@ -41,6 +54,13 @@ export default {
       const myModal = new bootstrap.Modal(document.getElementById('my3Modal'));
       myModal.show();
     };
+
+    const openModalTransacciones = async (cuenta) => {
+      cuentaGetted.value = cuenta;
+      GetTransacciones();
+      const myModal = new bootstrap.Modal(document.getElementById('my4Modal'));
+      myModal.show();
+    }
     
     const ActualizarCuenta = async () => {
       try {
@@ -78,6 +98,7 @@ export default {
       cuentaStore.createCuenta(authStore.user.nombre, cuenta);
       nombre.value = '';
       saldo.value = ''
+      GetData();
     };
 
     return{
@@ -85,11 +106,13 @@ export default {
       openModalEdit,
       openModalDelete,
       openModalAgregar,
+      openModalTransacciones,
       ActualizarCuenta,
       DeleteCuenta,
       AgregarCuenta,
       nombre,
-      saldo
+      saldo,
+      transacciones
     }
   }
 }
@@ -109,6 +132,7 @@ export default {
                       <th scope="col">Saldo</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,7 +140,7 @@ export default {
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ cuenta.nombre }}</td>
                         <td>{{ cuenta.nombre_usuario }}</td>
-                        <td>{{ cuenta.saldo }}</td>
+                        <td>Lps. {{ cuenta.saldo }}</td>
                         <td>
                           <button @click="openModalEdit(cuenta)" class="btn btn-outline-secondary">
                             <i class="bi bi-pencil"></i>
@@ -125,6 +149,11 @@ export default {
                         <td>
                           <button @click="openModalDelete(cuenta)" class="btn btn-outline-secondary">
                             <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                        <td>
+                          <button @click="openModalTransacciones(cuenta)" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-right"></i>
                           </button>
                         </td>
                     </tr>
@@ -204,6 +233,43 @@ export default {
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button @click.prevent="AgregarCuenta()" type="button" class="btn btn-outline-primary">Guardar</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div>
+      <div id="my4Modal" class="modal modal-lg" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Transacciones realizadas</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <table class="table table-bordered">
+                  <thead class="table-dark">
+                      <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Cuenta remitente</th>
+                      <th scope="col">Cuenta recibe</th>
+                      <th scope="col">Monto</th>
+                      <th scope="col">Descripcion</th>
+                      <th scope="col">Fecha de valor</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="(transaccion, index) in transacciones" :key="transaccion.numero_transaccion">
+                      <th scope="row">{{ index + 1 }}</th>
+                      <td>{{ transaccion.numero_cuenta_envia }} </td>
+                      <td>{{ transaccion.numero_cuenta_recibe }}</td>
+                      <td>Lps. {{ transaccion.monto }}</td>
+                      <td>{{ transaccion.descripcion }}</td>
+                      <td>{{ transaccion.fecha_de_valor }}</td>
+                  </tr>
+                  </tbody>
+              </table>
             </div>
             </div>
         </div>

@@ -20,13 +20,13 @@
         clase: "nav-link text-light"
       },
       {
-        nombre: "Servicios Publicos",
-        ruta: "/Servicios",
+        nombre: "Transacciones",
+        ruta: "/Transacciones",
         clase: "nav-link text-light"
       },
       {
-        nombre: "Transacciones",
-        ruta: "/Transacciones",
+        nombre: "Servicios",
+        ruta: "/Servicios",
         clase: "nav-link text-light"
       },
       {
@@ -50,7 +50,7 @@
       opciones.value[posicion].clase = "nav-link disabled text-white-50"
     }
     const index = opciones.value.findIndex(opcion => opcion.nombre === 'Admin');
-    if (authStore.user.role === 'ADMIN') {
+     if (authStore.user.role === 'ADMIN') {
       
     } else {
       opciones.value[index].clase = 'nav-link disabled text-white-50';
@@ -80,7 +80,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><RouterLink class="rainbow" to="/Home" @click="activar(0)">Tarea 6</RouterLink></a>
+    <a class="navbar-brand" href="#"><RouterLink class="rainbow" to="/Home" @click="activar(0)">ATM</RouterLink></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

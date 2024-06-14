@@ -66,18 +66,13 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore();
-  await authStore.checkAuth();
-
-  if (to.meta.requiresAuth && !authStore.user) {
+  const loggedIn = !!localStorage.getItem('token');
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next('/Login');
-  } else if (to.meta.requiresAdmin && authStore.user.role !== 'ADMIN') {
-    next('/');
-  } else if (to.path === '/Login' && authStore.user) {
-    next('/Home');
-  } else {
+  }else{
     next();
   }
+
 });
 
 export default router

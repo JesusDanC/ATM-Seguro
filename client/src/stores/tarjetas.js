@@ -13,8 +13,9 @@ export const TarjetasStore = defineStore('tarjeta', {
       const response = await apiTarjetas.getTarjetas(numero_cuenta);
       this.tarjetas = response.data;
     },
-    async createTarjeta(numero_cuenta) {
-      const response = await apiTarjetas.createTarjeta(numero_cuenta);
+    async createTarjeta(numero_cuenta, tarjeta) {
+      console.log(numero_cuenta)
+      const response = await apiTarjetas.createTarjeta(numero_cuenta, tarjeta);
       this.tarjetas.push(response.tarjetas);
     },
     async updateTarjeta(numero_tarjeta, tarjeta) {
