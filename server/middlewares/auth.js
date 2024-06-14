@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const verificarAuth = (req, res, next) => {
     let token = req.get('token');
-  
     jwt.verify(token, 'secret', (err, decoded) => {
   
         if(err) {
@@ -13,7 +12,6 @@ const verificarAuth = (req, res, next) => {
         }
         
         req.usuario = decoded.data; 
-        next();
     });
 }
 
@@ -26,10 +24,6 @@ const verificarRol = (req, res, next) => {
             mensaje: 'Rol no autorizado!'
         });
     }
-
-    next();
 }
   
-module.exports = {verificarAuth, verificarRol};
-//
-  
+module.exports = {verificarAuth, verificarRol};  

@@ -1,7 +1,8 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
+const autoIncrement = require('mongoose-sequence')(mongoose);
 
 const BitacoraSchema = Schema({
-    id_usuario:{
+    nombre_usuario:{
         type: String,
         required: true
     },
@@ -14,10 +15,11 @@ const BitacoraSchema = Schema({
     },
     codigo:{
         type: Number,
-        required: true,
         unique: true
     }
 });
+
+BitacoraSchema.plugin(autoIncrement, { inc_field: 'codigo' });
 
 BitacoraSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();

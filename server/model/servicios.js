@@ -1,32 +1,36 @@
 const { Schema, model, mongoose } = require('mongoose');
 const autoIncrement = require('mongoose-sequence')(mongoose);
 
-const CuentaSchema = Schema({
+const ServicioSchema = Schema({
+    id_servicio:{
+        type: Number,
+        unique: true
+    },
     nombre_usuario:{
         type: String,
         required: true
     },
-    numero_cuenta:{
-        type: Number,
-        unique: true
-    },
-    nombre:{
+    nombre_servicio:{
         type: String,
         required: true
     },
-    saldo:{
+    numero_cuenta_usuario:{
         type: Number,
-        default:'0'
+        required: true
     },
-    fecha_creacion:{
+    fecha_pago:{
         type: Date,
         required: true
+    },
+    monto:{
+        type: Number,
+        default:'0'
     }
 });
 
-CuentaSchema.plugin(autoIncrement, { inc_field: 'numero_cuenta' });
+ServicioSchema.plugin(autoIncrement, { inc_field: 'id_servicio' });
 
-CuentaSchema.method('toJSON', function() {
+ServicioSchema.method('toJSON', function() {
     const { __v, __id, ...object} = this.toObject();
 
     object.uid = __id;
@@ -34,4 +38,4 @@ CuentaSchema.method('toJSON', function() {
     return object;
 })
 
-module.exports = model('cuenta', CuentaSchema);
+module.exports = model('servicio', ServicioSchema);

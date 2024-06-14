@@ -3,9 +3,8 @@ const { response } = require('express');
 const modelo_bitacora = require('../model/bitacora');
 
 const Ver_bitacora = async(req, res) => {
-    const id_usuario = req.params.id;
     try {
-        const bitacora = await modelo_bitacora.find({id_usuario}, 'codigo fecha_ingreso fecha_salida');
+        const bitacora = await modelo_bitacora.find({}, 'codigo fecha_ingreso fecha_salida');
 
         res.json(bitacora);
 
@@ -19,20 +18,11 @@ const Ver_bitacora = async(req, res) => {
 }
 
 const Crear_bitacora = async(req, res) => {
-    const id_usuario = req.params.id;
-    const {codigo} = req.body;
+    const nombre_usuario = req.params.id;
 
     try {
-        const Existe_bitacora = await modelo_bitacora.findOne({codigo});
-
-        if (Existe_bitacora) {
-            return res.status(200).json({
-                ok: false,
-                msg: ''
-            });
-        }
         const bitacora = new modelo_bitacora( req.body );
-        bitacora.id_usuario = id_usuario;
+        bitacora.nombre_usuario = nombre_usuario;
         bitacora.fecha_ingreso = Date.now();
 
         await bitacora.save();
