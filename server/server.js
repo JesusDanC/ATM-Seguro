@@ -1,9 +1,9 @@
 var express = require('express');
-require ('dotenv').config();
 
+require ('dotenv').config();
+const xmlParser = require('express-xml-bodyparser');
 const morgan = require('morgan');
 const cors = require('cors');
-const path = require('path');
 const { conexion_base_datos } = require('./database/config');
 
 var app = express();
@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }))
+app.use(xmlParser());
 
 conexion_base_datos();
 

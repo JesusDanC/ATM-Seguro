@@ -12,10 +12,10 @@ export default {
 
     const cuentas = ref([]);
 
-    const monto = ref('');
-    const numero_cuenta_envia = ref('');
-    const numero_cuenta_recibe = ref('');
-    const descripcion = ref('');
+    var monto = ref('');
+    var numero_cuenta_envia = ref('');
+    var numero_cuenta_recibe = ref('');
+    var descripcion = ref('');
 
     onMounted(async () => {
       await GetData();

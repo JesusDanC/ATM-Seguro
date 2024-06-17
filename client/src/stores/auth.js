@@ -14,9 +14,16 @@ export const useAuthStore = defineStore('auth', () => {
     const loginUser = async (nombre, pin) => {
         try {
             const data = await login(nombre, pin);
-            user.value = data.user; 
-            saveUser(data.user);
-            localStorage.setItem('token', data.token);
+            
+            const usuario = ref({
+                nombre: data.user.nombre._text,
+                role: data.user.role._text
+            })
+ 
+            user.value = usuario.value;
+            saveUser(usuario.value);
+
+            localStorage.setItem('token', data.token._text);
             error.value = null;
         } catch (err) {
             error.value = err.mensaje || 'Error al iniciar sesión';
