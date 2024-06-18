@@ -11,7 +11,13 @@ export const UsuariosStore = defineStore('usuario', {
   actions: {
     async fetchUsers() {
       const response = await apiUsuario.getUsers();
-      this.usuarios = response.data;
+
+      const users = response.data.response.users.map(usuario => ({
+        nombre: usuario.nombre._text,
+        role: usuario.role._text
+      }));
+      
+      this.usuarios = users;
     },
     async createUser(usuario) {
       const response = await apiUsuario.createUser(usuario);
@@ -25,6 +31,7 @@ export const UsuariosStore = defineStore('usuario', {
       }
     },
     async deleteUser(nombre) {
+      console.log(nombre)
       await apiUsuario.deleteUser(nombre);
       this.usuarios = this.usuarios.filter(usuario => usuario.nombre !== nombre);
     }

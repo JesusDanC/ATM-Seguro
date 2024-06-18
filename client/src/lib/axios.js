@@ -9,6 +9,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   if (config.data && config.headers['Content-Type'] === 'application/xml') {
     config.data = jsonToXml(config.data);
+    console.log(config)
   }
   return config;
 }, (error) => {
@@ -21,7 +22,7 @@ api.interceptors.response.use((response) => {
             
             const options = { compact: true, ignoreComment: true, spaces: 4 };
             const json = convert.xml2js(response.data, options);
-        
+            
             response.data = json;
             return response;
         }

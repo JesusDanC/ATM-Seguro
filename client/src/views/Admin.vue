@@ -30,7 +30,6 @@ export default {
     };
 
     const openModalDelete = async (usuario) => {
-      console.log(usuario.nombre)
       userGetted.value = usuario;
       const myModal = new bootstrap.Modal(document.getElementById('my2Modal'));
       myModal.show();
@@ -54,7 +53,7 @@ export default {
 
     const DeleteUsuario = async () => {
       try {
-        usuarioStore.deleteUser(userGetted.nombre);
+        usuarioStore.deleteUser(userGetted.value.nombre);
         userGetted.value = [];
         const myModal = new bootstrap.Modal(document.getElementById('my2Modal'));
         myModal.hide();
