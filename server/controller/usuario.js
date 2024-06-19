@@ -38,11 +38,11 @@ const Ver_usuarios = async(req, res) => {
 }
 
 const Crear_usuarios = async(req, res) => {
-    const jsonData = req.body.usuario;
+    const Datos = req.body.usuario;
 
     const usuario = {
-        nombre: jsonData.nombre.toString(),
-        pin: jsonData.pin.toString()
+        nombre: Datos.nombre.toString(),
+        pin: Datos.pin.toString()
     }
 
     try {
@@ -102,11 +102,11 @@ const Actualizar_usuarios = async ( req, res = response) => {
             return res.status(400).send(xmlError);
         }
         
-        const jsonData = req.body.usuario;
+        const Datos = req.body.usuario;
 
         const usuario = {
-            nombre: jsonData.nombre.toString(),
-            pin: jsonData.pin.toString()
+            nombre: Datos.nombre.toString(),
+            pin: Datos.pin.toString()
         }
 
         if (usuario_buscado.nombre === usuario.nombre) {

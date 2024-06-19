@@ -5,6 +5,7 @@ const xmlParser = require('express-xml-bodyparser');
 const morgan = require('morgan');
 const cors = require('cors');
 const { conexion_base_datos } = require('./database/config');
+const { encriptar, desencriptar } = require('./middlewares/encriptacion');
 
 var app = express();
 
@@ -13,6 +14,8 @@ app.use(express.json());
 app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }))
 app.use(xmlParser());
+app.use(desencriptar);
+app.use(encriptar);
 
 conexion_base_datos();
 

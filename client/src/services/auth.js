@@ -9,7 +9,7 @@ export const login = async (nombre, pin) => {
         
         const response = await api.post('/login', { usuario });
         
-        return response.data.response;
+        return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error;
     }

@@ -1,7 +1,7 @@
 <script>
-import { useAuthStore } from '../stores/auth';
 import { ref, onMounted } from 'vue';
 import { CuentasStore } from '../stores/cuentas.js';
+import { useAuthStore } from '../stores/auth.js';
 import { TransaccionesStore } from '../stores/transacciones.js'
 
 export default {

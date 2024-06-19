@@ -62,7 +62,7 @@ const Actualizar_cuentas = async ( req, res = response) => {
         const campos = req.body;
         
         if(cuenta_buscada==campos.numero_cuenta){
-            return res.status(404).json({
+            return res.status(400).json({
                 ok:false,
                 msg: 'El numero de cuenta existe'
             });

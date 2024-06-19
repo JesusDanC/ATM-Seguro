@@ -15,15 +15,13 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const data = await login(nombre, pin);
             
-            const usuario = ref({
-                nombre: data.user.nombre._text,
-                role: data.user.role._text
-            })
+            console.log(data.user)
+            console.log(data.token)
  
-            user.value = usuario.value;
-            saveUser(usuario.value);
+            user.value = data.user;
+            saveUser(data.user);
 
-            localStorage.setItem('token', data.token._text);
+            localStorage.setItem('token', data.token);
             error.value = null;
         } catch (err) {
             error.value = err.mensaje || 'Error al iniciar sesión';
