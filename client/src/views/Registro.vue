@@ -1,6 +1,5 @@
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { UsuariosStore } from '../stores/usuario.js';
 
 export default {

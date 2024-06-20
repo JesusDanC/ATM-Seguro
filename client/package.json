@@ -13,6 +13,8 @@
     "@floating-ui/vue": "^1.0.6",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
     "pinia": "^2.1.7",
     "portal-vue": "^3.0.0-beta.0",
     "vue-axios": "^3.5.2",

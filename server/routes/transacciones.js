@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-
 const { Ver_transacciones, Crear_transacciones, Actualizar_transacciones, Borrar_transacciones } = require('../controller/transacciones');
 
 const router = Router();

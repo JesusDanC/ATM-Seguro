@@ -1,6 +1,4 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
-
 const { Ver_bitacora, Crear_bitacora, Actualizar_bitacora, Borrar_bitacora } = require('../controller/bitacora');
 
 const router = Router();
@@ -8,14 +6,11 @@ const router = Router();
 router.get('/', Ver_bitacora);
 
 router.post('/:id', [
-
     ], 
     Crear_bitacora
 );
 
-router.put('/:id',
-    [
-        check('fecha_salida', 'Este campo es obligatorio').not().isEmpty()
+router.put('/:id', [
     ],
     Actualizar_bitacora
 );

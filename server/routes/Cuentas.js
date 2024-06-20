@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-
 const { Ver_cuentas, Crear_cuentas, Actualizar_cuentas, Borrar_cuentas } = require('../controller/cuentas');
 
 const router = Router();

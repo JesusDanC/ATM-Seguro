@@ -39,9 +39,9 @@ export default {
       };
       TransaccionStore.createTransaccion(numero_cuenta_envia.value, transaccion);
       monto.value = '';
-      numero_cuenta_envia = '';
-      numero_cuenta_recibe = '';
-      descripcion = '';
+      numero_cuenta_envia.value = '';
+      numero_cuenta_recibe.value = '';
+      descripcion.value = '';
     };
 
     return{
@@ -74,10 +74,10 @@ export default {
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Monto:</label>
-        <input type="text" class="form-control" v-model="monto" placeholder="monto">
+        <input type="text" class="form-control" v-model="monto" placeholder="Monto">
       </div>
       <div class="form-floating">
-        <textarea v-model="descripcion" class="form-control" placeholder="Descripcion" id="floatingTextarea2" style="height: 100px" for="descripcion"></textarea>
+        <textarea v-model="descripcion" class="form-control" placeholder="Descripcion" id="floatingTextarea2" style="height: 100px"></textarea>
         <label for="floatingTextarea2">Descripcion</label>
       </div>
       <br>

@@ -5,14 +5,21 @@ const xmlParser = require('express-xml-bodyparser');
 const morgan = require('morgan');
 const cors = require('cors');
 const { conexion_base_datos } = require('./database/config');
+const { encriptar, desencriptar } = require('./middlewares/encriptacion');
 
 var app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+})); 
+
 app.use(express.json());
-app.use(morgan('tiny'));
+app.use(morgan('combined'));
 app.use(express.urlencoded({ extended: true }))
 app.use(xmlParser());
+app.use(desencriptar);
+app.use(encriptar);
 
 conexion_base_datos();
 
@@ -22,7 +29,6 @@ app.use('/api/tarjetas', require('./routes/tarjetas'));
 app.use('/api/transacciones', require('./routes/transacciones'));
 app.use('/api/servicios', require('./routes/servicios'));
 app.use('/api/bitacora', require('./routes/bitacora'));
-app.use('/api/token', require ('./routes/token'));
 app.use('/api/login', require('./routes/login'));
 
 app.get('/', (req, res) => {

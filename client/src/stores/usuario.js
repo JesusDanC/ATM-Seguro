@@ -11,7 +11,13 @@ export const UsuariosStore = defineStore('usuario', {
   actions: {
     async fetchUsers() {
       const response = await apiUsuario.getUsers();
-      this.usuarios = response.data;
+
+      const users = response.data.map(usuario => ({
+        nombre: usuario.nombre,
+        role: usuario.role
+      }));
+      
+      this.usuarios = users;
     },
     async createUser(usuario) {
       const response = await apiUsuario.createUser(usuario);
