@@ -43,6 +43,7 @@ const Crear_transacciones = async(req, res) => {
         transacciones.numero_cuenta_envia = numero_cuenta_envia;
 
         transacciones.fecha_de_valor = Date.now();
+
         await transacciones.save();
 
         res.status(200).json({

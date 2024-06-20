@@ -4,37 +4,18 @@ const convert = require('xml-js');
 
 const modelo_usuario = require('../model/usuario');
 
-function jsonToXml(response) {
-    const options = { compact: true, ignoreComment: true, spaces: 4 };
-    return convert.js2xml({response}, options);
-}
-
 const Ver_usuarios = async(req, res) => {
     try {
         const usuarios = await modelo_usuario.find({}, 'nombre role');
 
-        const users = usuarios.map(usuario => ({
-            nombre: usuario.nombre,
-            role: usuario.role
-        }));
-
-        const xmlData = jsonToXml({ users });
-        console.log(xmlData)
-
-        res.set('Content-Type', 'application/xml');
-        res.send(xmlData);
+        res.json(usuarios);
     } catch (error) {
         console.log(error);
-        const errorResponse = {
-          mensaje: 'Error al mostrar datos'
-        };
-
-        const xmlError = jsonToXml(errorResponse);
-
-        res.set('Content-Type', 'application/xml');
-        return res.status(500).send(xmlError);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error al mostrar datos'
+        });
     }
-    
 }
 
 const Crear_usuarios = async(req, res) => {
@@ -50,14 +31,10 @@ const Crear_usuarios = async(req, res) => {
 
         if (Existe_usuario) {
             console.log('Usuario ya existe');
-            const errorResponse = {
-            mensaje: 'El nombre de usuario ya existe'
-            };
-
-            const xmlError = jsonToXml(errorResponse);
-
-            res.set('Content-Type', 'application/xml');
-            return res.status(400).send(xmlError);
+            return res.status(200).json({
+                ok: false,
+                msg: 'El nombre de usuario ya existe'
+            });
         }
         
         const usuarios = new modelo_usuario( usuario );
@@ -68,12 +45,10 @@ const Crear_usuarios = async(req, res) => {
         await usuarios.save();
 
         console.log('Usuario agregado');
-        const Response = {
-          mensaje: 'Usuario agregado'
-        };
-        const xmlResponse = jsonToXml(Response);
-        res.set('Content-Type', 'application/xml');
-        res.send(xmlResponse);
+        res.status(200).json({
+            ok: false,
+            msg: 'Usuario agregado correctamente'
+        });
 
     } catch (error) {
         console.log(error);
@@ -92,14 +67,10 @@ const Actualizar_usuarios = async ( req, res = response) => {
 
         if(!usuario_buscado) {
             console.log('Usuario no existe');
-            const errorResponse = {
-            mensaje: 'El usuario no existe'
-            };
-
-            const xmlError = jsonToXml(errorResponse);
-
-            res.set('Content-Type', 'application/xml');
-            return res.status(400).send(xmlError);
+            return res.status(404).json({
+                ok:false,
+                msg: 'El nombre del usuario no existe'
+            });
         }
         
         const Datos = req.body.usuario;
@@ -115,14 +86,10 @@ const Actualizar_usuarios = async ( req, res = response) => {
             const existe_nombre = await modelo_usuario.findOne({ nombre: usuario.nombre });
             if (existe_nombre) {
                 console.log('Ese nombre existe');
-                const errorResponse = {
-                mensaje: 'El nombre de usuario ya existe'
-                };
-
-                const xmlError = jsonToXml(errorResponse);
-
-                res.set('Content-Type', 'application/xml');
-                return res.status(400).send(xmlError);
+                return res.status(400).json({
+                    ok: false,
+                    msg: "Ya existe un usuario con ese nombre"
+                });
             }
         }
 
@@ -132,24 +99,18 @@ const Actualizar_usuarios = async ( req, res = response) => {
         const usuarioActualizado = await modelo_usuario.findOneAndUpdate({nombre}, usuario, { new: true });
 
         console.log('Usuario actualizado');
-        console.log(usuarioActualizado)
-        const Response = {
-            mensaje: 'Usuario actualizado'
-        };
-        const xmlResponse = jsonToXml(Response);
-        res.set('Content-Type', 'application/xml');
-        res.send(xmlResponse);
+        res.json({
+            ok:true,
+            msg: "Usuario actualizado correctamente",
+            modelo_usuario: usuarioActualizado
+        });
 
     } catch (error) {
         console.log(error);
-        const errorResponse = {
-            mensaje: 'Error inesperado'
-        };
-
-        const xmlError = jsonToXml(errorResponse);
-
-        res.set('Content-Type', 'application/xml');
-        return res.status(500).send(xmlError);
+        res.status(500).json({
+            ok:false,
+            msg: 'Error inesperado!!!'
+        })
     }
 }
 
@@ -161,38 +122,27 @@ const Borrar_usuarios = async (req, res = response) => {
 
         if( !usuario_buscado ){
             console.log('El usuario no existe');
-            const errorResponse = {
-            mensaje: 'No existe usuario con ese nombre'
-            };
-
-            const xmlError = jsonToXml(errorResponse);
-
-            res.set('Content-Type', 'application/xml');
-            return res.status(400).send(xmlError);
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe usuario con ese nombre'
+            });
         }
 
         await modelo_usuario.findOneAndDelete({nombre});
         
 
         console.log('Usuario eliminado');
-        const Response = {
-            mensaje: 'Usuario eliminado correctamente'
-        };
+        res.json({
+            ok: true, 
+            msg: 'Usuario eliminado correctamente'
+        });
 
-        const xmlResponse = jsonToXml(Response);
-
-        res.set('Content-Type', 'application/xml');
-        return res.send(xmlResponse);
     } catch (error) {
         console.log(error);
-        const errorResponse = {
-            mensaje: 'Error al borrar el registro'
-        };
-
-        const xmlError = jsonToXml(errorResponse);
-
-        res.set('Content-Type', 'application/xml');
-        return res.send(xmlError);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error al borrar el registro'
+        });
     }
 }
 

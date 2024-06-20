@@ -8,14 +8,11 @@ const router = Router();
 router.get('/', Ver_bitacora);
 
 router.post('/:id', [
-
     ], 
     Crear_bitacora
 );
 
-router.put('/:id',
-    [
-        check('fecha_salida', 'Este campo es obligatorio').not().isEmpty()
+router.put('/:id', [
     ],
     Actualizar_bitacora
 );

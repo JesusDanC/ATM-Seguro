@@ -40,14 +40,19 @@ function desencriptar(req, res, next) {
         const encryptedData = req.body.encrypteddata;
         const receivedAuth = req.headers['x-md5-hash'];
 
-        if (!encryptedData || !receivedAuth) {
-            throw new Error('Datos encriptados o hash MD5 no encontrados en la solicitud');
+        if (!encryptedData) {
+            console.log('No se encontraron datos encriptados en la solicitud.');
+            return next();
         }
 
-        const calculatedAuth = authenticateWithMD5(encryptedData);
+        if (receivedAuth) {
+            const calculatedAuth = authenticateWithMD5(encryptedData);
 
-        if (receivedAuth !== calculatedAuth) {
-            throw new Error('Autenticación MD5 no válida. Los datos podrían haber sido modificados.');
+            if (receivedAuth !== calculatedAuth) {
+                throw new Error('Autenticación no válida. Los datos podrían haber sido modificados.');
+            }
+        } else {
+            console.warn('ADVERTENCIA: No se encontró el hash MD5 en la solicitud. La autenticación no se realizó.');
         }
 
         const decryptedData = decryptWith3DES(encryptedData);
@@ -61,6 +66,7 @@ function desencriptar(req, res, next) {
         return res.status(400).json({ error: 'Error al desencriptar y autenticar datos' });
     }
 }
+
 
 function encriptar(req, res, next) {
     const originalSend = res.send;

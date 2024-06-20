@@ -32,7 +32,6 @@ export default {
       try {
         await transaccionStore.fetchTransacciones(cuentaGetted.value.numero_cuenta)
         transacciones.value = transaccionStore.allTransacciones;
-        console.log(transacciones.value)
       } catch (error) {
         console.error('Error al obtener cuentas:', error);
       }
@@ -123,14 +122,14 @@ export default {
     <div class="container ">
         <div class="col">
           <h2>Cuentas:</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Nombre cuenta</th>
                       <th scope="col">Nombre usuario</th>
                       <th scope="col">Saldo</th>
-                      <th scope="col"></th>
+                      <th scope="col">Transacciones</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                     </tr>
@@ -141,19 +140,19 @@ export default {
                         <td>{{ cuenta.nombre }}</td>
                         <td>{{ cuenta.nombre_usuario }}</td>
                         <td>Lps. {{ cuenta.saldo }}</td>
-                        <td>
+                        <td class="text-center">
+                            <button @click="openModalTransacciones(cuenta)" class="btn btn-outline-secondary">
+                              <i class="bi bi-arrow-left-right"></i>
+                            </button>
+                        </td>
+                        <td class="text-center">
                           <button @click="openModalEdit(cuenta)" class="btn btn-outline-secondary">
                             <i class="bi bi-pencil"></i>
                           </button>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <button @click="openModalDelete(cuenta)" class="btn btn-outline-secondary">
                             <i class="bi bi-trash"></i>
-                          </button>
-                        </td>
-                        <td>
-                          <button @click="openModalTransacciones(cuenta)" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left-right"></i>
                           </button>
                         </td>
                     </tr>
@@ -248,7 +247,7 @@ export default {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <table class="table table-bordered">
+              <table class="table table-bordered table-striped table-hover">
                   <thead class="table-dark">
                       <tr>
                       <th scope="col">#</th>

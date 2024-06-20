@@ -4,11 +4,11 @@ export const apiBitacora = {
     getBitacoras() {
       return api.get('/bitacora');
     },
-    createBitacora(nombre_usuario, bitacora) {
-      return api.post(`/bitacora/${nombre_usuario}`, bitacora);
+    createBitacora(nombre_usuario) {
+      return api.post(`/bitacora/${nombre_usuario}`);
     },
-    updateBitacora(codigo, bitacora) {
-      return api.put(`/bitacora/${codigo}`, bitacora);
+    updateBitacora(codigo) {
+      return api.put(`/bitacora/${codigo}`);
     },
     deleteBitacora(codigo) {
       return api.delete(`/bitacora/${codigo}`);

@@ -1,11 +1,14 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { UsuariosStore } from '../stores/usuario.js';
+import { BitacoraStore } from '../stores/bitacora.js'
 
 export default {
   setup() {
     const usuarioStore = UsuariosStore();
+    const bitacorasStore = BitacoraStore();
     const usuarios = ref([]);
+    const bitacora = ref([])
     const userGetted = ref([]);
     const nombre = ref('');
     const pin = ref('');
@@ -23,6 +26,15 @@ export default {
       }
     }
 
+    async function GetBitacora() {
+      try {
+        await bitacorasStore.fetchBitacoras(userGetted.value.nombre)
+        bitacora.value = bitacorasStore.allBitacoras;
+      } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+      }
+    }
+
     const openModalEdit = async (usuario) => {
       userGetted.value = usuario;
       const myModal = new bootstrap.Modal(document.getElementById('myModal'));
@@ -32,6 +44,13 @@ export default {
     const openModalDelete = async (usuario) => {
       userGetted.value = usuario;
       const myModal = new bootstrap.Modal(document.getElementById('my2Modal'));
+      myModal.show();
+    };
+
+    const openModalBitacora = async (usuario) => {
+      userGetted.value = usuario;
+      await GetBitacora()
+      const myModal = new bootstrap.Modal(document.getElementById('my3Modal'));
       myModal.show();
     };
     
@@ -63,10 +82,17 @@ export default {
       GetData();
     };
 
+    const CerrarBitacora = async () => {
+      userGetted.value = [];
+    };
+
     return{
       usuarios,
+      bitacora,
+      CerrarBitacora,
       openModalEdit,
       openModalDelete,
+      openModalBitacora,
       ActualizarUsuario,
       DeleteUsuario,
       nombre,
@@ -81,12 +107,13 @@ export default {
     <div class="container ">
         <div class="col">
           <h2>Usuarios:</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Nombre</th>
                       <th scope="col">Role</th>
+                      <th scope="col">Bitacora</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                     </tr>
@@ -96,12 +123,17 @@ export default {
                         <th scope="row">{{ index + 1 }}</th>
                         <td>{{ usuario.nombre }}</td>
                         <td>{{ usuario.role }}</td>
-                        <td>
+                        <td class="text-center">
+                          <button @click="openModalBitacora(usuario)" class="btn btn-outline-secondary">
+                            <i class="bi bi-journals"></i>
+                          </button>
+                        </td>
+                        <td class="text-center">
                           <button @click="openModalEdit(usuario)" class="btn btn-outline-secondary">
                             <i class="bi bi-pencil"></i>
                           </button>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <button @click="openModalDelete(usuario)" class="btn btn-outline-secondary">
                             <i class="bi bi-trash"></i>
                           </button>
@@ -134,7 +166,7 @@ export default {
             </form>
           </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button @click.prevent="CerrarBitacora()" type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button @click.prevent="ActualizarUsuario()" type="button" class="btn btn-outline-primary">Guardar</button>
             </div>
             </div>
@@ -156,6 +188,37 @@ export default {
           </div>
         </div>
       </div>
+    </div>
+
+    <div>
+      <div id="my3Modal" class="modal modal-lg" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Bitacora</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <table class="table table-bordered table-striped table-hover">
+                  <thead class="table-dark">
+                      <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Fecha de ingreso</th>
+                      <th scope="col">Fecha de salida</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="(bitacora, index) in bitacora" :key="bitacora.codigo">
+                      <th scope="row">{{ index + 1 }}</th>
+                      <td>{{ bitacora.fecha_ingreso }} </td>
+                      <td>{{ bitacora.fecha_salida }}</td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+            </div>
+        </div>
+        </div>
     </div>
 </template>
 

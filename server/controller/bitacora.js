@@ -21,7 +21,7 @@ const Crear_bitacora = async(req, res) => {
     const nombre_usuario = req.params.id;
 
     try {
-        const bitacora = new modelo_bitacora( req.body );
+        const bitacora = new modelo_bitacora();
         bitacora.nombre_usuario = nombre_usuario;
         bitacora.fecha_ingreso = Date.now();
 
@@ -54,16 +54,9 @@ const Actualizar_bitacora = async ( req, res = response) => {
             });
         }
         
-        const campos = req.body;
-        
-        if(bitacora_buscada==campos.codigo){
-            return res.status(404).json({
-                ok:false,
-                msg: 'El codigo de bitacora ya existe'
-            });
-        }
+        const fecha_salida = Date.now();
 
-        const BitacoraActualizada = await modelo_bitacora.findOneAndUpdate({codigo}, campos, { new: true });
+        const BitacoraActualizada = await modelo_bitacora.findOneAndUpdate({codigo}, {fecha_salida: fecha_salida}, { new: true });
         res.json({
             ok:true,
             modelo_bitacora: BitacoraActualizada

@@ -126,7 +126,7 @@ export default {
         <h3>Nombre de la cuenta: {{ cuenta.nombre }}</h3>
         <div class="col">
           <h4>Tarjetas</h4>
-          <table class="table table-bordered">
+          <table class="table table-bordered table-striped table-hover">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
@@ -143,12 +143,12 @@ export default {
                 <td>{{ tarjeta.cvv }}</td>
                 <td>{{ tarjeta.fecha_creacion }}</td>
                 <td>{{ tarjeta.fecha_vencimiento }}</td>
-                <td>
+                <td class="text-center">
                   <button @click="openModalEdit(tarjeta)" class="btn btn-outline-secondary">
                     <i class="bi bi-pencil"></i>
                   </button>
                 </td>
-                <td>
+                <td class="text-center">
                   <button @click="openModalDelete(tarjeta)" class="btn btn-outline-secondary">
                     <i class="bi bi-trash"></i>
                   </button>

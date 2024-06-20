@@ -116,7 +116,7 @@ export default {
     <div class="container ">
         <div class="col">
           <h2>Servicios:</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
                       <th scope="col">#</th>
@@ -135,12 +135,12 @@ export default {
                         <td>{{ servicio.numero_cuenta_usuario }}</td>
                         <td>Lps. {{ servicio.monto }}</td>
                         <td>{{ servicio.fecha_pago }}</td>
-                        <td>
+                        <td class="text-center">
                           <button @click="openModalEdit(servicio)" class="btn btn-outline-secondary">
                             <i class="bi bi-pencil"></i>
                           </button>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <button @click="openModalDelete(servicio)" class="btn btn-outline-secondary">
                             <i class="bi bi-trash"></i>
                           </button>
