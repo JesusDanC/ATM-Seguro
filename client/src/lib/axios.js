@@ -36,6 +36,7 @@ api.interceptors.request.use((config) => {
     const { data: encryptedData, md5Hash } = encriptar(config.data);
     config.headers['X-MD5-Hash'] = md5Hash;
     config.data = jsonToXml({ encryptedData });
+    console.log(config)
   }
   return config;
 }, (error) => {
@@ -45,6 +46,7 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use((response) => {
   try {
     if (response.headers['content-type'].includes('application/xml')) {
+      console.log(response.data)
       const Datos = convert.xml2js(response.data, { compact: true });
       const receivedMd5Hash = Datos.response.md5Hash._text;
       const encryptedData = Datos.response.encryptedData._text;

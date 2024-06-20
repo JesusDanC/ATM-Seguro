@@ -1,6 +1,4 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
-
 const { Ver_bitacora, Crear_bitacora, Actualizar_bitacora, Borrar_bitacora } = require('../controller/bitacora');
 
 const router = Router();

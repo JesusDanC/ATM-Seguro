@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-
 const { Ver_tarjetas, Crear_tarjetas, Actualizar_tarjetas, Borrar_tarjetas } = require('../controller/tarjetas');
 
 const router = Router();
