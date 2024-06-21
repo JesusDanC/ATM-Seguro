@@ -9,10 +9,20 @@ const { encriptar, desencriptar } = require('./middlewares/encriptacion');
 
 var app = express();
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
-})); 
+const corsOptions = {
+    origin: function (origin, callback) {
+      const allowedOrigins = ['http://134.25.0.1:5173', 'http://134.25.0.254:5173', "http://localhost:5173"];
+  
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS')); 
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'] 
+};
+
+app.use(cors(corsOptions)); 
 
 app.use(express.json());
 app.use(morgan('combined'));
