@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '../stores/auth';
 import Login from '../views/Login.vue';
 import Registro from '../views/Registro.vue'
 import Home from '../views/Home.vue'
